@@ -24,11 +24,17 @@
 .all-buttons{
     width: 150px;
     height: 200px;
-    font-size: 10px;
+    font-size: 15px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 5px;
-    justify-content: center;
-    
+    gap: 5px; 
+}
+
+.clear{ 
+    font-size: 20px;
+}
+
+.digit, .operator{
+    font-size: 20px;
 }
