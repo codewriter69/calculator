@@ -1,3 +1,12 @@
+const operatorAndDigits = document.querySelectorAll("button.digit, button.operator");
+const displayDiv = document.querySelector("div.display")
+const clear = document.querySelector("button.clear")
+
+let firstOperand = "";
+let secondOperand = "";
+let operator = "";
+
+
 function add(num1, num2) {
     return num1 + num2
 }
@@ -17,9 +26,6 @@ function divide(num1, num2) {
     return num1 / num2
 }
 
-let firstOperand;
-let secondOperand;
-let operator;
 
 function operate(operator, firstNum, secondNum) {
     if (operator === "+") {
@@ -41,29 +47,38 @@ function operate(operator, firstNum, secondNum) {
     else alert("invalid input!")
 }
 
-const operatorAndDigits = document.querySelectorAll("button.digit, button.operator");
-const displayDiv = document.querySelector("div.display")
-const clear = document.querySelector("button.clear")
+clear.addEventListener("click", () => {
+    displayDiv.textContent = "";
+    firstOperand = "";
+    operator = "";
+    secondOperand = "";
+    lastInputWasOperator = false;
+})
+
 
 let lastInputWasOperator = false;
 for (let button of operatorAndDigits) {
     button.addEventListener("click", () => {
         const isDigit = button.classList.contains("digit");
         const isOperator = button.classList.contains("operator");
-
-        if (isDigit) {
+        
+        if (isDigit && !lastInputWasOperator ) {
             // Append digits to the display
             displayDiv.textContent += button.textContent;
             lastInputWasOperator = false; // Reset operator flag
+            firstOperand += button.textContent;
+            console.log(firstOperand)
         } else if (isOperator && !lastInputWasOperator) {
             // Add operator only if the last input wasn't an operator
             displayDiv.textContent += ` ${button.textContent} `;
             lastInputWasOperator = true; // Set operator flag
+            operator = button.textContent;
+            console.log(operator)
+        } else if (isDigit && lastInputWasOperator) {
+            secondOperand += button.textContent
+            console.log(secondOperand)
         }
     });
 }
 
 
-clear.addEventListener("click", () => {
-    displayDiv.textContent = " ";
-})
