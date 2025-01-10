@@ -57,13 +57,20 @@ clear.addEventListener("click", () => {
 
 
 let lastInputWasOperator = false;
+let clickedFirstTime = true;
 for (let button of operatorAndDigits) {
     button.addEventListener("click", () => {
+        if (clickedFirstTime) {
+            displayDiv.textContent = "";
+            clickedFirstTime = false;
+        }
+        
         const isDigit = button.classList.contains("digit");
         const isOperator = button.classList.contains("operator");
         
-        if (isDigit && !lastInputWasOperator ) {
+        if (isDigit && !lastInputWasOperator) {
             // Append digits to the display
+            
             displayDiv.textContent += button.textContent;
             lastInputWasOperator = false; // Reset operator flag
             firstOperand += button.textContent;
@@ -75,7 +82,9 @@ for (let button of operatorAndDigits) {
             operator = button.textContent;
             console.log(operator)
         } else if (isDigit && lastInputWasOperator) {
+            displayDiv.textContent += button.textContent;
             secondOperand += button.textContent
+            lastInputWasOperator = false; // Reset operator flag
             console.log(secondOperand)
         }
     });
