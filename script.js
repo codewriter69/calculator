@@ -4,6 +4,7 @@ const operatorAndDigits = document.querySelectorAll("button.digit, button.operat
 const displayDiv = document.querySelector("div.display")
 const clear = document.querySelector("button.clear")
 const equals = document.querySelector("button.equals")
+const backSpace = document.querySelector("button.backspace")
 
 //Declaring the 3 main components of the calculator.
 //First Operand is the first number clicked, Operator is the math operator (+,-,/,*) and 
@@ -26,8 +27,8 @@ function multiply(num1, num2) {
 }
 
 function divide(num1, num2) {
-    if (num1 === 0) {
-        alert("No can do!");
+    if (num2 == 0) { // Check if the denominator is zero
+        alert("No can do! Division by zero is not allowed.");
     }
     return num1 / num2
 }
@@ -63,8 +64,10 @@ clear.addEventListener("click", () => {
 })
 
 
+
 let lastInputWasOperator = false; //Boo variable to check if last button clicked was a operator or not. Used to distinguish between first and second operand 
-let clickedFirstTime = true; //Boo variable to check if a button(operand or operator) was clicked for the first time.  
+let clickedFirstTime = true; //Boo variable to check if a button(operand or operator) was clicked for the first time.
+let lastButtonWas = "";
 for (let button of operatorAndDigits) {
     button.addEventListener("click", () => {
         
@@ -83,7 +86,9 @@ for (let button of operatorAndDigits) {
             displayDiv.textContent += button.textContent;
             lastInputWasOperator = false; // Reset operator flag
             firstOperand += button.textContent;
+            lastButtonWas = "firstOperand";
             console.log(firstOperand)
+            console.log(lastButtonWas)
         } else if (isOperator && !lastInputWasOperator) {
             // If an operator is clicked, and there's already a firstOperand and operator,
             // calculate the result of the previous operation before updating the operator
@@ -98,17 +103,43 @@ for (let button of operatorAndDigits) {
             
             lastInputWasOperator = true;
             operator = button.textContent;
+            lastButtonWas = "operator"
             console.log(operator);
+            console.log(lastButtonWas)
         } else if (isDigit && lastInputWasOperator) { //if the button clicked is a digit and the last input WAS an operator, we classify that as the second operand
             displayDiv.textContent += button.textContent;
             secondOperand += button.textContent
             lastInputWasOperator = false; // Reset operator flag
+            lastButtonWas = "secondOperand";
             console.log(secondOperand)
+            console.log(lastButtonWas)
         }
 
         
     });
 }
+
+backSpace.addEventListener("click", () => {
+    // Remove the last character from the display
+    displayDiv.textContent = displayDiv.textContent.slice(0, -1);
+
+    if (lastButtonWas === "firstOperand") {
+        // Remove the last character from the firstOperand
+        firstOperand = firstOperand.slice(0, -1);
+    } else if (lastButtonWas === "secondOperand") {
+        // Remove the last character from the secondOperand
+        secondOperand = secondOperand.slice(0, -1);
+    } else if (lastButtonWas === "operator") {
+        // Clear the operator and reset the flag
+        operator = "";
+        lastInputWasOperator = false;
+    }
+
+    // If everything is empty, reset the clickedFirstTime flag to allow clearing properly
+    if (!firstOperand && !secondOperand && !operator) {
+        clickedFirstTime = true;
+    }
+});
 
 //When clicked on equals signs, it runs the operate function on the operator, first and second operands above.
 equals.addEventListener("click", () => {
