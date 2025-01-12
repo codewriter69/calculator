@@ -84,12 +84,21 @@ for (let button of operatorAndDigits) {
             lastInputWasOperator = false; // Reset operator flag
             firstOperand += button.textContent;
             console.log(firstOperand)
-        } else if (isOperator && !lastInputWasOperator) { ////if the button clicked is an operator and the last input was NOT an operator, we classify that as the operator
-            // Add operator only if the last input wasn't an operator
-            displayDiv.textContent += ` ${button.textContent} `;
-            lastInputWasOperator = true; // Set operator flag
+        } else if (isOperator && !lastInputWasOperator) {
+            // If an operator is clicked, and there's already a firstOperand and operator,
+            // calculate the result of the previous operation before updating the operator
+            if (firstOperand && secondOperand && operator) {
+                firstOperand = operate(operator, firstOperand, secondOperand).toString(); // Perform calculation
+                displayDiv.textContent = `${firstOperand} ${button.textContent} `; // Update the display
+                secondOperand = ""; // Reset the second operand
+            } else {
+                // Otherwise, just add the operator to the display
+                displayDiv.textContent += ` ${button.textContent} `;
+            }
+            
+            lastInputWasOperator = true;
             operator = button.textContent;
-            console.log(operator)
+            console.log(operator);
         } else if (isDigit && lastInputWasOperator) { //if the button clicked is a digit and the last input WAS an operator, we classify that as the second operand
             displayDiv.textContent += button.textContent;
             secondOperand += button.textContent
@@ -103,6 +112,12 @@ for (let button of operatorAndDigits) {
 
 //When clicked on equals signs, it runs the operate function on the operator, first and second operands above.
 equals.addEventListener("click", () => {
-    let result = operate(operator, firstOperand,secondOperand);
-    displayDiv.textContent = result;
-})
+    if (firstOperand && secondOperand && operator) {
+        let result = operate(operator, firstOperand, secondOperand).toString();
+        displayDiv.textContent = result;
+        firstOperand = result; // Set result as the new first operand for further operations
+        secondOperand = ""; // Reset the second operand
+        operator = ""; // Reset the operator
+        lastInputWasOperator = false;
+    }
+});
