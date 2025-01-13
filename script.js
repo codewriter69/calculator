@@ -61,6 +61,7 @@ clear.addEventListener("click", () => {
     operator = "";
     secondOperand = "";
     lastInputWasOperator = false;
+    clickedFirstTime = true;
 })
 
 
@@ -75,6 +76,7 @@ for (let button of operatorAndDigits) {
         if (clickedFirstTime) {
             displayDiv.textContent = "";
             clickedFirstTime = false;
+            firstOperand = "";
         }
         
         //Variables for if a button is a digit(operand) or operator
@@ -84,7 +86,7 @@ for (let button of operatorAndDigits) {
         if (isDigit && !lastInputWasOperator) { //if the button clicked is a digit and the last input was NOT an operator, we classify that as the first operand
             // Append digits to the display
             displayDiv.textContent += button.textContent;
-            lastInputWasOperator = false; // Reset operator flag
+            //lastInputWasOperator = false; // Reset operator flag
             firstOperand += button.textContent;
             lastButtonWas = "firstOperand";
             console.log(firstOperand)
@@ -100,12 +102,12 @@ for (let button of operatorAndDigits) {
                 // Otherwise, just add the operator to the display
                 displayDiv.textContent += ` ${button.textContent} `;
             }
-            
             lastInputWasOperator = true;
             operator = button.textContent;
             lastButtonWas = "operator"
             console.log(operator);
             console.log(lastButtonWas)
+
         } else if (isDigit && lastInputWasOperator) { //if the button clicked is a digit and the last input WAS an operator, we classify that as the second operand
             displayDiv.textContent += button.textContent;
             secondOperand += button.textContent
@@ -114,8 +116,7 @@ for (let button of operatorAndDigits) {
             console.log(secondOperand)
             console.log(lastButtonWas)
         }
-
-        
+           
     });
 }
 
@@ -133,6 +134,7 @@ backSpace.addEventListener("click", () => {
         // Clear the operator and reset the flag
         operator = "";
         lastInputWasOperator = false;
+        lastButtonWas = "firstOperand";
     }
 
     // If everything is empty, reset the clickedFirstTime flag to allow clearing properly
@@ -150,5 +152,6 @@ equals.addEventListener("click", () => {
         secondOperand = ""; // Reset the second operand
         operator = ""; // Reset the operator
         lastInputWasOperator = false;
+        clickedFirstTime = true;
     }
 });
