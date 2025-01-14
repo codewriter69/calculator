@@ -26,9 +26,9 @@ function multiply(num1, num2) {
 }
 
 function divide(num1, num2) {
-    if (num2 === 0) {
+    if (num2 == 0) {
         alert("Division by zero is not allowed.");
-        return "Error";
+        return "Nutjob!";
     }
     return parseFloat(num1) / parseFloat(num2);
 }
@@ -52,7 +52,8 @@ function operate(operator, firstNum, secondNum) {
 
 // Clear functionality
 clear.addEventListener("click", () => {
-    displayDiv.textContent = "";
+    displayDiv.textContent = "DISPLAY";
+    displayDiv.style.color = "grey";
     firstOperand = "";
     secondOperand = "";
     operator = "";
@@ -80,7 +81,8 @@ backSpace.addEventListener("click", () => {
 
     // If both operands and operator are empty, clear the display completely
     if (!firstOperand && !secondOperand && !operator) {
-        displayDiv.textContent = "";
+        displayDiv.textContent = "DISPLAY";
+        displayDiv.style.color = "grey";
         currentOperand = "first"; // Start building the first operand after clearing everything
     }
 });
@@ -95,9 +97,11 @@ for (let button of operatorAndDigits) {
             if (currentOperand === "first") {
                 firstOperand += button.textContent;
                 displayDiv.textContent = firstOperand;
+                displayDiv.style.color = "white";
             } else if (currentOperand === "second") {
                 secondOperand += button.textContent;
                 displayDiv.textContent = `${firstOperand} ${operator} ${secondOperand}`;
+                displayDiv.style.color = "white";
             }
             lastInputWasOperator = false;
         } else if (isOperator) {
@@ -105,9 +109,11 @@ for (let button of operatorAndDigits) {
                 firstOperand = operate(operator, firstOperand, secondOperand).toString();
                 secondOperand = "";
                 displayDiv.textContent = `${firstOperand} ${button.textContent}`;
+                displayDiv.style.color = "white";
             } else if (firstOperand && !secondOperand) {
                 operator = button.textContent;
                 displayDiv.textContent = `${firstOperand} ${operator}`;
+                displayDiv.style.color = "white";
                 currentOperand = "second";
             } else if (!firstOperand) {
                 alert("Please enter a number first!");

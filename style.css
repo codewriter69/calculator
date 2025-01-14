@@ -1,24 +1,37 @@
 * {
     box-sizing: border-box;
-    border: 1px solid red;
     padding: 2px;
+
+}
+
+button {
+    border-radius: 12px;
+    background-color: black;
+    color: white;
 }
 
 .container{ 
-    margin-top: 20%; 
-    margin-bottom: 20%;
+    margin:auto;
     display: flex;
     flex-direction: column;    
-    gap: 6px;
+    gap: 4px;
     align-items: center;
     justify-content: center;
     height: 500px;
+    width: 310px;
+    border-radius: 15px;
+    background-color:red
 }
 
 .display {
     font-size: 180%;
     padding: 15px;
     width: 300px;
+    border-radius: 15px;
+    text-align: end;
+    background-color: black;
+    color: grey;
+    margin-top: 5px;
 }
 
 .all-buttons{
@@ -33,13 +46,23 @@
     flex-grow: 1;
 }
 
-
+.first-row, .second-row, .third-row, .fourth-row, .fifth-row {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+}
 
 .clear, .backspace {
+    flex: 1;
     font-size: 140%;
 }
 
-.digit, .operator {
+.digit, .operator, .equals {
     font-size: 150%;
+    flex:1;
 }
+    
+
+
+
 
